@@ -1,42 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NodeWeather</title>
 
-<head>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom CSS -->
-    <link href="css/template.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/cover.css" rel="stylesheet">
+    <link href="css/nodeweather.css" rel="stylesheet">
 
-</head>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
 
-<body>
-
-    <div class = "header">
-        THERMOSTAT
+    <div class="col-lg-12 text-center">
+      <h1><span class="label label-primary">Node Weather</span></h1>
     </div>
 
-    <div class = "display">
-        <img src = "images/up.png"> 22&deg;C <img src = "images/down.png">
+    <div class="col-lg-12 text-center">
+     <h2>Target Temperature</h2>
     </div>
 
-    <div class = "segment-header">
-        Indoor
+    <div class ="row">
+      <div class="col-md-4 text-center">
+      </div>
+      <div class="col-md-4 text-center">
+        <h1>22&deg;C</h1>
+      </div>
     </div>
 
-    <div class = "display">
-        22&deg;C
+    <div class ="row">
+      <div class="col-md-4 text-center">
+      </div>
+      <div class="col-md-4 text-center">
+        <button type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-up"></button>
+        <button type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-down"></button>
+      </div>
     </div>
 
-    <div class = "segment-header">
-        Outdoor
+    <div class="col-lg-12 text-center">
+      <h2>Current Temperature</h2>
     </div>
 
-    <div class = "display">
-        15&deg;C
+    <div class ="row">
+      <div class="col-md-4 text-center">
+      </div>
+      <div class="col-md-4 text-center">
+        <h1>22&deg;C</h1>
+      </div>
     </div>
 
-    <div class = "segment-header">
-        Ottawa, ON
+    <div class="col-lg-12 text-center">
+     <h2>Outdoor Temperature</h2>
     </div>
 
-</body>
+    <div class ="row">
+      <div class="col-md-4 text-center">
+      </div>
+      <div class="col-md-4 text-center">
+        <h1>22&deg;C</h1>
+      </div>
+    </div>    
+
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>
