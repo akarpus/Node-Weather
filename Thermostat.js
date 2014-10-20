@@ -32,6 +32,12 @@ http.createServer(function (request,response){
 	var urlObj = url.parse(request.url, true, false);
 	var extname = path.extname(urlObj.pathname); //get the extension
 
+	if (urlObj.pathname == "/")
+		urlObj.pathname = "/index.html";
+
+     console.log('-------------------------------');
+     console.log("PATHNAME: " + urlObj.pathname);
+
 	fs.readFile(ROOT_DIR + urlObj.pathname, function(err,data){
 	if(err){
 		console.log('ERROR: ' + JSON.stringify(err));
