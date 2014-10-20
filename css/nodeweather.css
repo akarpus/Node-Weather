@@ -1,0 +1,12 @@
+div.display {
+	font-family: 'VT323', serif;
+    font-size: 100px;
+    color: #66CCFF;
+}
+
+output {
+    display: inline;
+	font-family: 'VT323', serif;
+    font-size: 100px;
+    color: #66CCFF;
+}
