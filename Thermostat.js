@@ -1,14 +1,16 @@
 var http = require('http'); //need to http
 var url = require('url');
+var ws = require("nodejs-websocket")
 var fs = require('fs');
 var path = require('path');
 var userInput = require('readline');
 var prompts = userInput.createInterface(process.stdin, process.stdout);
 var increase = false;
+
 var temp = 0;
+var targetTemp = 20;
 
 var counter = 1000; //to count invocations of function(req,res)
-
 var ROOT_DIR = 'public'; //dir for static files
 
 
@@ -24,7 +26,7 @@ prompts.question("Set House Temperature: ", function (temp){
 	setInterval(function(){
 	increase = true;
 	if (increase == true)
-		console.log('temperature: ' + temp++)}, 2500);
+		console.log('temperature: ' + temp++ + " "+"target: " + targetTemp)}, 2500);
 	
 });
 
@@ -34,9 +36,6 @@ http.createServer(function (request,response){
 
 	if (urlObj.pathname == "/")
 		urlObj.pathname = "/index.html";
-
-     console.log('-------------------------------');
-     console.log("PATHNAME: " + urlObj.pathname);
 
 	fs.readFile(ROOT_DIR + urlObj.pathname, function(err,data){
 	if(err){
@@ -78,3 +77,17 @@ http.createServer(function (request,response){
  //    response.write('temperature: ' + temp + '<br>');
 	// response.end('Message Received');
  }).listen(3000);
+
+var server = ws.createServer(function (connection) {
+	connection.on("text", function (str) {
+		broadcast(str) //output target temp
+	})
+})
+server.listen(3001)
+
+function broadcast(str) {
+	server.connections.forEach(function (connection) {
+		targetTemp = str; //set target temp as client's target temp
+		connection.sendText(str) //send back to client
+	})
+}
