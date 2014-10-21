@@ -10,7 +10,7 @@ var temp = 0;
 
 var counter = 1000; 		//to count invocations of function(req,res)
 var ROOT_DIR = 'public';	//dir for static files
-var roomTemp = 20;			//degrees C
+var roomTemp = 20;		//degrees C
 var furnaceIsOn = false;   	// boolean check for furnace
 var targetTemp = 20;      
 var pollON = true;
@@ -23,8 +23,7 @@ prompts.question("Set House Temperature: ", function (houseTemp){
 	console.log("---------------------------");
 		
 var Thermostat = require("./ThermostatClass.js"); 		//helper function class
-var therm = new Thermostat(); 							//thermostat controlling furnace
-
+var therm = new Thermostat(); 					//thermostat controlling furnace
 targetTemp = new Number(houseTemp);
 
 therm.setThermostat(targetTemp);
@@ -44,7 +43,7 @@ setTimeout( function again(){
 
    if(furnaceIsOn ) roomTemp++;
    else roomTemp--;
-   therm.temp(roomTemp); 				//tell thermostat the room temp
+   therm.temp(roomTemp); 			//tell thermostat the room temp
    console.log('TEMP: ' + roomTemp);
    setTimeout(again, 2500); 			//recursively restart timeout
    }, 2500)
@@ -98,6 +97,6 @@ function broadcast(str) {
 	server.connections.forEach(function (connection) {
 		console.log(str);
 		targetTemp = new Number(str); 	//set target temp as client's target temp
-		connection.sendText(str) 		//send back to client
+		connection.sendText(str) 	//send back to client
 	})
 }
