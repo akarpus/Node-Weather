@@ -1,10 +1,18 @@
-var http = require('http'); //need to http
+var https = require('https'); //need to http
 var url = require('url');
+var fs = require('fs');
+
+//private SSL key and signed certificate
+var options = {
+  key: fs.readFileSync('serverkey.pem'),
+  cert: fs.readFileSync('servercert.crt')
+};
 
 var query = {
   hostname: 'localhost',
   port: '3000',
-  path: '/furnace'
+  path: '/furnace',
+  rejectUnauthorized: false
 }
 
 setTimeout( function again(){
@@ -17,7 +25,7 @@ function handleResponse(response){
   });
 }
 
-http.request(query, function(response){
+https.request(query, function(response){
    handleResponse(response);}).end();
    setTimeout(again, 1000); //recursively restart timeout
 }, 1000);
