@@ -9,7 +9,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this targetTemplate -->
     <link href="css/cover.css" rel="stylesheet">
     <link href="css/nodeweather.css" rel="stylesheet">
 
@@ -25,15 +25,32 @@
   </head>
 
 <script>
-var temp=20;
+var targetTemp=20;
+var connection
+window.addEventListener("load", function () {
 
-function updateTemp(action)
-{
-  if (action==1)
-    document.getElementById('result0').value=++temp;
-  else
-    document.getElementById('result0').value=--temp;
-}
+  connection = new WebSocket("ws://"+window.location.hostname+":3001")
+  connection.onopen = function () {
+    console.log("Connection opened")
+    document.getElementById("incTemp").onclick = function (event) { //increase target targetTemp
+      connection.send(++targetTemp) //send to server
+      event.preventDefault()
+    }
+    document.getElementById("decTemp").onclick = function (event) { //decrease target targetTemp
+      connection.send(--targetTemp) //send to server
+      event.preventDefault()
+    }   
+  }
+  connection.onclose = function () {
+    console.log("Connection closed")
+  }
+  connection.onerror = function () {
+    console.error("Connection error")
+  }
+  connection.onmessage = function (event) {
+    document.getElementById('result0').value=event.data;
+  }
+})
 </script>  
 
   <body>
@@ -58,8 +75,8 @@ function updateTemp(action)
       <div class="col-md-4 text-center">
       </div>
       <div class="col-md-4 text-center">
-        <button type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-up" onclick="updateTemp(1)"></button>
-        <button type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-down" onclick="updateTemp(0)"></button>
+        <button id="incTemp" type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-up" onclick="updateTemp(1)"></button>
+        <button id="decTemp" type="button" class="btn btn-primary btn-lg btn-block glyphicon glyphicon-arrow-down" onclick="updateTemp(0)"></button>
       </div>
     </div>
 
