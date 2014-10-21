@@ -25,19 +25,18 @@
   </head>
 
 <script>
-var targetTemp=20;
 var connection
 window.addEventListener("load", function () {
 
   connection = new WebSocket("ws://"+window.location.hostname+":3001")
   connection.onopen = function () {
     console.log("Connection opened")
-    document.getElementById("incTemp").onclick = function (event) { //increase target targetTemp
-      connection.send(++targetTemp) //send to server
+    document.getElementById("incTemp").onclick = function (event) { //increase targetTemp
+      connection.send("incTemp") //send to server
       event.preventDefault()
     }
-    document.getElementById("decTemp").onclick = function (event) { //decrease target targetTemp
-      connection.send(--targetTemp) //send to server
+    document.getElementById("decTemp").onclick = function (event) { //decrease targetTemp
+      connection.send("decTemp") //send to server
       event.preventDefault()
     }   
   }
@@ -48,7 +47,10 @@ window.addEventListener("load", function () {
     console.error("Connection error")
   }
   connection.onmessage = function (event) {
-    document.getElementById('result0').value=event.data;
+    var str = event.data;
+    var out = str.split(" ");
+    document.getElementById('targetTempOut').value=out[0];
+    document.getElementById('roomTempOut').value=out[1];
   }
 })
 </script>  
@@ -56,7 +58,7 @@ window.addEventListener("load", function () {
   <body>
 
     <div class="col-lg-12 text-center">
-      <h1><span class="label label-primary">Node Weather</span></h1>
+      <h1><span class="label label-primary">NodeWeather</span></h1>
     </div>
 
     <div class="col-lg-12 text-center">
@@ -67,7 +69,7 @@ window.addEventListener("load", function () {
       <div class="col-md-4 text-center">
       </div>
       <div id="targetTemp" class="col-md-4 text-center display">
-        <output type=text id="result0" value"" readonly>20</output>&deg;C
+        <output type=text id="targetTempOut" value"" readonly>20</output>&deg;C
       </div>
     </div>
 
@@ -88,7 +90,7 @@ window.addEventListener("load", function () {
       <div class="col-md-4 text-center">
       </div>
       <div id="currentTemp" class="col-md-4 text-center display">
-        22&deg;C
+        <output type=text id="roomTempOut" value"" readonly>20</output>&deg;C
       </div>
     </div>
 
