@@ -10,7 +10,7 @@ var temp = 0;
 
 var counter = 1000; 		//to count invocations of function(req,res)
 var ROOT_DIR = 'public';	//dir for static files
-var roomTemp = 20;		//degrees C
+var roomTemp = 20;			//degrees C
 var furnaceIsOn = false;   	// boolean check for furnace
 var targetTemp = 20;      
 var pollON = true;
@@ -19,11 +19,12 @@ var pollOFF = true;
 console.log("---------------------------");
 prompts.question("Set House Temperature: ", function (houseTemp){
 	console.log("---------------------------");
-	console.log("House Temperature Set At: " + houseTemp);
+	console.log("House Temperature Set: " + houseTemp);
 	console.log("---------------------------");
 		
 var Thermostat = require("./ThermostatClass.js"); 		//helper function class
-var therm = new Thermostat(); 					//thermostat controlling furnace
+var therm = new Thermostat(); 							//thermostat controlling furnace
+
 targetTemp = new Number(houseTemp);
 
 therm.setThermostat(targetTemp);
@@ -31,11 +32,13 @@ therm.setThermostat(targetTemp);
 therm.on("run", function() {
   furnaceIsOn = true;
   console.log("Furnace: ON");
+  console.log("---------------------------");
 });
 
 therm.on("stop", function() {
   furnaceIsOn = false;
   console.log("Furnace: OFF");
+  console.log("---------------------------");
 });
  
 //start a timeout timer and recursively restart it each time.
@@ -43,8 +46,9 @@ setTimeout( function again(){
 
    if(furnaceIsOn ) roomTemp++;
    else roomTemp--;
-   therm.temp(roomTemp); 			//tell thermostat the room temp
-   console.log('TEMP: ' + roomTemp);
+   therm.temp(roomTemp); 				//tell thermostat the room temp
+   console.log('TEMPERATURE: ' + roomTemp);
+   console.log('---------------------------');
    setTimeout(again, 2500); 			//recursively restart timeout
    }, 2500)
 });
@@ -97,6 +101,6 @@ function broadcast(str) {
 	server.connections.forEach(function (connection) {
 		console.log(str);
 		targetTemp = new Number(str); 	//set target temp as client's target temp
-		connection.sendText(str) 	//send back to client
+		connection.sendText(str) 		//send back to client
 	})
 }
