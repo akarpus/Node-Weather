@@ -1,16 +1,4 @@
-/*
-Interacting with external services
-
-Simple example of node.js app serving contents based on an available internet service. In this case api.openweathermap.org
-
-Example from:
-Brad Dayley "Node.js, MongoDB and AngularJS web development" chapter 7
-*/
-
-/*
-Use browser to view pages at http://localhost:3000/
-
-*/
+/* Simple demonstration of OpenWeatherMap API */
 
 var http = require('http');
 var url = require('url');
