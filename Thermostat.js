@@ -25,7 +25,7 @@ prompts.question("Set House Temperature: ", function (houseTemp){
 var Thermostat = require("./ThermostatClass.js"); 		//helper function class
 var therm = new Thermostat(); 							//thermostat controlling furnace
 
-targetTemp = new Number(houseTemp);
+// targetTemp = new Number(houseTemp);
 
 therm.setThermostat(targetTemp);
 
@@ -47,6 +47,7 @@ setTimeout( function again(){
    if(furnaceIsOn ) roomTemp++;
    else roomTemp--;
    therm.temp(roomTemp); 				//tell thermostat the room temp
+   broadcast(targetTemp+" "+roomTemp);
    console.log('TEMPERATURE: ' + roomTemp);
    console.log('---------------------------');
    setTimeout(again, 2500); 			//recursively restart timeout
@@ -90,7 +91,7 @@ http.createServer(function (request,response){
 		}
  }).listen(3000);
  
- var server = ws.createServer(function (connection) {
+var server = ws.createServer(function (connection) {
 	connection.on("text", function (str) {
 		broadcast(str) //output target temp
 	})
@@ -99,8 +100,11 @@ server.listen(3001)
 
 function broadcast(str) {
 	server.connections.forEach(function (connection) {
-		console.log(str);
-		targetTemp = new Number(str); 	//set target temp as client's target temp
-		connection.sendText(str) 		//send back to client
+		if (str == "incTemp")
+			++targetTemp;
+		else if (str =="decTemp")
+			--targetTemp;
+		console.log("TARGET TEMP SET TO: "+targetTemp);
+		connection.sendText(targetTemp+" "+roomTemp) 		//send back to client
 	})
 }
