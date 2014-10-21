@@ -1,4 +1,4 @@
-var http = require('http'); //need to http
+var https = require('https');
 var url = require('url');
 var ws = require("nodejs-websocket")		// *important: install the nodejs-websocket module
 var fs = require('fs');
@@ -15,6 +15,12 @@ var furnaceIsOn = false;   	// boolean check for furnace
 var targetTemp = 20;      
 var pollON = true;
 var pollOFF = true;
+
+//private SSL key and signed certificate
+var options = {
+	key: fs.readFileSync('serverkey.pem'),
+	cert: fs.readFileSync('servercert.crt')
+};
 						 
 console.log("---------------------------");
 prompts.question("Set House Temperature: ", function (houseTemp){
@@ -50,11 +56,13 @@ setTimeout( function again(){
    broadcast(targetTemp+" "+roomTemp);
    console.log('TEMPERATURE: ' + roomTemp);
    console.log('---------------------------');
+   console.log('TARGET TEMPERATURE: ' + targetTemp);
+   console.log('---------------------------');
    setTimeout(again, 2500); 			//recursively restart timeout
    }, 2500)
 });
 
-http.createServer(function (request,response){
+https.createServer(options, function (request,response){
 	var urlObj = url.parse(request.url, true, false);
 	var extname = path.extname(urlObj.pathname); //get the extension
 
@@ -100,11 +108,14 @@ server.listen(3001)
 
 function broadcast(str) {
 	server.connections.forEach(function (connection) {
-		if (str == "incTemp")
+		if (str == "incTemp") {
+			console.log("TARGET TEMPERATURE INCREASED");
 			++targetTemp;
-		else if (str =="decTemp")
+		}
+		else if (str =="decTemp") {
+			console.log("TARGET TEMPERATURE DECREASED");
 			--targetTemp;
-		console.log("TARGET TEMP SET TO: "+targetTemp);
+		}
 		connection.sendText(targetTemp+" "+roomTemp) 		//send back to client
 	})
 }
