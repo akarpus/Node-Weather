@@ -1,4 +1,5 @@
 var https = require('https');
+var http = require('http');
 var url = require('url');
 var ws = require("nodejs-websocket")		// *important: install the nodejs-websocket module
 var fs = require('fs');
@@ -16,6 +17,12 @@ var targetTemp = 20;
 var pollON = true;
 var pollOFF = true;
 
+var weatherData = '';
+var cityTemp = '';
+
+var Thermostat = require("./ThermostatClass.js"); 		//helper function class
+var therm = new Thermostat(); 							//thermostat controlling furnace
+
 //private SSL key and signed certificate
 var options = {
 	key: fs.readFileSync('serverkey.pem'),
@@ -28,10 +35,7 @@ prompts.question("Set House Temperature: ", function (houseTemp){
 	console.log("House Temperature Set: " + houseTemp);
 	console.log("---------------------------");
 		
-var Thermostat = require("./ThermostatClass.js"); 		//helper function class
-var therm = new Thermostat(); 							//thermostat controlling furnace
-
-// targetTemp = new Number(houseTemp);
+targetTemp = new Number(houseTemp);
 
 therm.setThermostat(targetTemp);
 
@@ -46,7 +50,7 @@ therm.on("stop", function() {
   console.log("Furnace: OFF");
   console.log("---------------------------");
 });
- 
+  
 //start a timeout timer and recursively restart it each time.
 setTimeout( function again(){
 
@@ -100,22 +104,52 @@ https.createServer(options, function (request,response){
  }).listen(3000);
  
 var server = ws.createServer(function (connection) {
+	getWeather('Ottawa');
+	//console.log(weatherData);
 	connection.on("text", function (str) {
-		broadcast(str) //output target temp
+		broadcast(str);//output target temp
 	})
 })
-server.listen(3001)
+server.listen(3001);
 
 function broadcast(str) {
 	server.connections.forEach(function (connection) {
 		if (str == "incTemp") {
 			console.log("TARGET TEMPERATURE INCREASED");
-			++targetTemp;
+			console.log('---------------------------');
+			therm.setThermostat(++targetTemp);
 		}
 		else if (str =="decTemp") {
 			console.log("TARGET TEMPERATURE DECREASED");
-			--targetTemp;
+			console.log('---------------------------');
+			therm.setThermostat(--targetTemp);
 		}
-		connection.sendText(targetTemp+" "+roomTemp) 		//send back to client
+    	for (x in weatherData) {
+			//console.log(weatherData[x]);
+			if (weatherData[x] ==  't' && weatherData[x+1] == 'e' && weatherData[x+2] == 'm' && weatherData[x+3] == 'p'){
+				cityTemp = weatherData[x+6]+weatherData[x+7]+weatherData[x+8];
+				console.log('City Temperature: '+cityTemp);
+				console.log('---------------------------');
+				break;
+			}
+			
+		}
+		connection.sendText(targetTemp+" "+roomTemp+" "+cityTemp) 		//send back to client
 	})
+}
+
+function parseWeather(weatherResponse) {
+  weatherResponse.on('data', function (chunk) {
+    weatherData += chunk;
+  });
+}
+
+function getWeather(city){
+  var options = {
+    host: 'api.openweathermap.org',
+    path: '/data/2.5/weather?q=' + city + '&units=metric'
+  };
+  http.request(options, function(weatherResponse){
+    parseWeather(weatherResponse);
+  }).end();
 }
