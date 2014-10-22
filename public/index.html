@@ -8,13 +8,16 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.icon-large.min.css" rel="stylesheet">  
 
-    <!-- Custom styles for this targetTemplate -->
+    <!-- Custom styles for this template -->
     <link href="css/cover.css" rel="stylesheet">
     <link href="css/nodeweather.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=VT323">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=VT323">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -51,25 +54,27 @@ window.addEventListener("load", function () {
     var out = str.split(" ");
     document.getElementById('targetTempOut').value=out[0];
     document.getElementById('roomTempOut').value=out[1];
+    // document.getElementById('outdoorTempOut').value=out[2];
+    // document.getElementById('cityOut').value=out[3];
   }
 })
 </script>  
 
   <body>
 
-    <div class="col-lg-12 text-center">
-      <h1><span class="label label-primary">NodeWeather</span></h1>
+    <div class="col-lg-12 text-center title">
+      NodeWeather
     </div>
 
-    <div class="col-lg-12 text-center">
-     <h2>Target Temperature</h2>
+    <div class="col-lg-12 text-center header" >
+      <h2>Target Temperature</h2>
     </div>
 
     <div class ="row">
       <div class="col-md-4 text-center">
       </div>
       <div id="targetTemp" class="col-md-4 text-center display">
-        <output type=text id="targetTempOut" value"" readonly>20</output>&deg;C
+        <output type=text id="targetTempOut" value"" readonly>-</output>&deg;C
       </div>
     </div>
 
@@ -82,30 +87,33 @@ window.addEventListener("load", function () {
       </div>
     </div>
 
-    <div class="col-lg-12 text-center">
-      <h2>Current Temperature</h2>
+    <div class="col-lg-12 text-center header">
+      <h2>Room Temperature</h2>
     </div>
 
     <div class ="row">
       <div class="col-md-4 text-center">
       </div>
       <div id="currentTemp" class="col-md-4 text-center display">
-        <output type=text id="roomTempOut" value"" readonly>20</output>&deg;C
+        <output type=text id="roomTempOut" value"" readonly>-</output>&deg;C
       </div>
     </div>
 
-    <div class="col-lg-12 text-center">
-     <h2>Outdoor Temperature</h2>
+    <div class="col-lg-12 text-center header">
+      <h2>Outdoor Temperature</h2>
     </div>
 
     <div class ="row">
       <div class="col-md-4 text-center">
       </div>
       <div id="outdoorTemp" class="col-md-4 text-center display">
-        22&deg;C
+        <output type=text id="outdoorTempOut" value"" readonly>-</output>&deg;C
       </div>
     </div>    
 
+    <div class="col-lg-12 text-center">
+      <output type=text id="cityOut" class="city" value"" readonly>n/a</output>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

@@ -1,12 +1,30 @@
+div.title {
+	font-family: 'Pacifico', serif;
+	font-size: 70px;
+	background: #428BCA;
+}
+
+div.header {
+	font-family: 'Roboto', serif;
+	font-size: 30px;
+}
+
 div.display {
 	font-family: 'VT323', serif;
-    font-size: 100px;
+    font-size: 90px;
     color: #66CCFF;
 }
 
 output {
     display: inline;
 	font-family: 'VT323', serif;
-    font-size: 100px;
+    font-size: 90px;
+    color: #66CCFF;
+}
+
+output.city {
+    display: inline;
+	font-family: 'VT323', serif;
+    font-size: 60px;
     color: #66CCFF;
 }

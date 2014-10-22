@@ -16,15 +16,20 @@ $ npm install nodejs-websocket
 ```
 ### Running the Applications in the Terminal
 
-1. Clone the repository
+1. Clone the repository.
 2. Open two command shells.
 3. Input ```node Thermostat.js``` to initiate the Thermostat application in the first shell.
 4. Input ```node Furnace.js``` to initiate the Furnace application in the second shell.
 5. Input a temperature as user input in the thermostat application and observe the HTTP/HTTPS interaction.
 
 ### Controlling the Applications through Browser
+- Tested on Chrome, Firefox, and Opera.
+
+#### Firefox Configuration
+- Go to ```about:config``` and toggle ```network.websocket.allowInsecureFromHTTPS``` to true. 
 
 1. Input ```127.0.0.1:3000``` into a browser to control and view the thermostat/furnace applications and weather API.
+2. You may be warned about an untrusted certificate, add it to the list of exceptions.
 
 ## Feedback
 
