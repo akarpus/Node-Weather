@@ -21,7 +21,11 @@ function handleResponse(response){
   response.on('data', function(chunk){serverData += chunk});
   
   response.on('end', function(){
-     if (serverData != '') console.log(serverData);
+     if (serverData != '') {
+	 console.log('------------------');
+	 console.log(serverData);
+	 console.log('------------------');
+	 }
   });
 }
 
