@@ -125,14 +125,18 @@ function broadcast(str) {
 			therm.setThermostat(--targetTemp);
 		}
     	for (x in weatherData) {
-			//console.log(weatherData[x]);
+			x = new Number(x);
 			if (weatherData[x] ==  't' && weatherData[x+1] == 'e' && weatherData[x+2] == 'm' && weatherData[x+3] == 'p'){
-				cityTemp = weatherData[x+6]+weatherData[x+7]+weatherData[x+8];
+				cityTemp = weatherData[x+6];
+				if (weatherData[x+7] != ',')
+				cityTemp = cityTemp + weatherData[x+7];
+				if (weatherData[x+8] != '"')
+				cityTemp = cityTemp + weatherData[x+8];
+				
 				console.log('City Temperature: '+cityTemp);
 				console.log('---------------------------');
 				break;
 			}
-			
 		}
 		connection.sendText(targetTemp+" "+roomTemp+" "+cityTemp) 		//send back to client
 	})
