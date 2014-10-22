@@ -58,9 +58,9 @@ setTimeout( function again(){
    else roomTemp--;
    therm.temp(roomTemp); 				//tell thermostat the room temp
    broadcast(targetTemp+" "+roomTemp);
-   console.log('TEMPERATURE: ' + roomTemp);
+   console.log('Temperature: ' + roomTemp);
    console.log('---------------------------');
-   console.log('TARGET TEMPERATURE: ' + targetTemp);
+   console.log('Target Temperature: ' + targetTemp);
    console.log('---------------------------');
    setTimeout(again, 2500); 			//recursively restart timeout
    }, 2500)
@@ -92,12 +92,12 @@ https.createServer(options, function (request,response){
  	var urlObj = url.parse(request.url, true, false);
 	response.writeHead(200 , {'Content-Type': 'text/html'});
 		if (urlObj.href == '/furnace' && furnaceIsOn && pollON) {
-			response.end('FURNACE IS ON');	
+			response.end('Furnace is on');	
 			pollON = false;
 			pollOFF = true;
 		}
 		else if (urlObj.href == '/furnace' && !furnaceIsOn && pollOFF){
-			response.end('FURNACE IS OFF');
+			response.end('Furnace is off');
 			pollON = true;
 			pollOFF = false;
 		}
@@ -115,12 +115,12 @@ server.listen(3001);
 function broadcast(str) {
 	server.connections.forEach(function (connection) {
 		if (str == "incTemp") {
-			console.log("TARGET TEMPERATURE INCREASED");
+			console.log("Target Temperature Increased");
 			console.log('---------------------------');
 			therm.setThermostat(++targetTemp);
 		}
 		else if (str =="decTemp") {
-			console.log("TARGET TEMPERATURE DECREASED");
+			console.log("Target Temperature Decreased");
 			console.log('---------------------------');
 			therm.setThermostat(--targetTemp);
 		}
