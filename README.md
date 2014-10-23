@@ -2,6 +2,12 @@
 
 A prototype application of an internet controlled home heating system. The system consists of three separate modules and an API all communicating through HTTP or HTTPS.
 
+## Screenshots
+<img src="/screenshot/img.png" width="100%" alt="NodeWeather Screenshot">
+<br>
+
+
+
 ## Modules
 - Thermostat Application, 
 - Furnace Application, 
